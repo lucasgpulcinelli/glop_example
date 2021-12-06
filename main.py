@@ -1,9 +1,33 @@
 #!/usr/bin/env python3
 
 from ortools.linear_solver import pywraplp
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-def LinearProgrammingExample():
+def ShowProblem():
+    sns.set_style("whitegrid", {"grid.color": ".6", "grid.linestyle": ":"})
+    x = np.arange(-4, 9, 0.01)
+
+    y1 = (14 - x)/2
+    y2 = 3*x
+    y3 = x - 2
+
+    ax = sns.lineplot(x=x, y=y1, color="red", label="x + 2y = 14")
+    sns.lineplot(x=x, y=y2, color="green", label="3x - y = 0")
+    sns.lineplot(x=x, y=y3, color="purple", label="x - y = 2")
+
+    ymax = np.minimum(y1,y2)
+    ax.fill_between(x, y3, ymax, where=y3<ymax, color="#0000FF55")
+
+    plt.xlim(-2.5, 7.5)
+    plt.ylim(-3.5, 6.5)
+
+    plt.show()
+
+
+def LinearSolveExample():
     # Instantiate a Glop solver
     solver = pywraplp.Solver.CreateSolver('GLOP')
 
@@ -33,5 +57,6 @@ def LinearProgrammingExample():
 
 
 if __name__ == "__main__":
-    LinearProgrammingExample()
+    ShowProblem()
+    LinearSolveExample()
 
